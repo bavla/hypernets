@@ -1,13 +1,13 @@
 # Zoo
 
 Source Information
-   -- Creator: Richard Forsyth
-   -- Donor: Richard S. Forsyth 
-             8 Grosvenor Avenue
-             Mapperley Park
-             Nottingham NG3 5DX
+* Creator: Richard Forsyth
+* Donor: Richard S. Forsyth, 
+             8 Grosvenor Avenue,
+             Mapperley Park,
+             Nottingham NG3 5DX,
              0602-621676
-   -- Date: 5/15/1990
+* Date: 5/15/1990
 ```
 List of 5
  $ format: chr "hypernets"
