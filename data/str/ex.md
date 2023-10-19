@@ -14,11 +14,11 @@ List of 5
   ..$ nLinks : int 3
   ..$ simple : logi TRUE
  $ nodes :'data.frame': 5 obs. of  1 variable:
-  ..$ lab: chr [1:5] "v1" "v2" "v3" "v4" ...
+  ..$ ID: chr [1:5] "v1" "v2" "v3" "v4" ...
  $ links :'data.frame': 3 obs. of  3 variables:
-  ..$ lab: chr [1:3] "e1" "e2" "e3"
-  ..$ T  : int [1:3] 10 15 21
-  ..$ E  :List of 3
+  ..$ ID: chr [1:3] "e1" "e2" "e3"
+  ..$ T : int [1:3] 10 15 21
+  ..$ E :List of 3
   .. ..$ : int [1:3] 1 2 3
   .. ..$ : int [1:2] 2 4
   .. ..$ : int [1:4] 1 3 4 5
