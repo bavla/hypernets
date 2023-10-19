@@ -10,7 +10,7 @@ List of 5
   ..$ href   : chr "https://archive.ics.uci.edu/dataset/111/zoo"
   ..$ note   : chr "there are 2 instances of \"frog\" and one of \"girl\"!"
   ..$ creator: chr "V. Batagelj"
-  ..$ date   : chr "Thu Oct 19 00:51:51 2023"
+  ..$ date   : chr "Thu Oct 19 02:08:46 2023"
   ..$ nNodes : int 15
   ..$ nLinks : int 101
   ..$ simple : logi FALSE
@@ -25,5 +25,6 @@ List of 5
   .. ..$ : int [1:7] 1 4 8 9 10 13 15
   .. ..$ : int [1:7] 3 6 7 8 9 12 13
   .. .. [list output truncated]
- $ data  : list()
+ $ data  :List of 1
+  ..$ tID: chr [1:7] "mammal" "bird" "reptile" "fish" ...
 ```
