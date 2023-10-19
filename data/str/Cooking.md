@@ -1,5 +1,12 @@
 # Cooking
 
+Original data obtained from the What's Cooking Kaggle competition:
+
+https://www.kaggle.com/c/whats-cooking
+
+Here nodes are ingredients, hyperedges corresponds to recipes and hyperedge
+categories correspond to one of 20 different types of cuisine.
+
 ```
 List of 5
  $ format: chr "hypernets"
