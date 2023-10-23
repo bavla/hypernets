@@ -1,6 +1,8 @@
 # CIA factbook: resources
 
 The set of nodes/resources needs some additional cleaning.
+
+http://vladowiki.fmf.uni-lj.si/doku.php?id=vlado:work:hn:cia#resources
 ```
 List of 5
  $ format: chr "hypernets"
