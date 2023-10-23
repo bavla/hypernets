@@ -7,6 +7,7 @@
 | [Cooking](https://raw.githubusercontent.com/bavla/hypernets/main/data/Zoo.json)   | ingredients    | 6759  | recipes  | 39774     | [str](https://github.com/bavla/hypernets/blob/main/data/str/Cooking.md)     |
 | [Contacts-high school](https://raw.githubusercontent.com/bavla/hypernets/main/data/contact-high-school.json)   | students    | 327  | contacts  | 172035   | [str](https://github.com/bavla/hypernets/blob/main/data/str/contact-high-school.md)     |
 | [FB resources](https://raw.githubusercontent.com/bavla/hypernets/main/data/FB_resources.json)   | resources    | 293  | countries  | 237   | [str](https://github.com/bavla/hypernets/blob/main/data/str/FB_resources.md)     |
+| [FB import/export](https://raw.githubusercontent.com/bavla/hypernets/main/data/FB_ImpExp.json)   | resources    | 753  | countries  | 237   | [str](https://github.com/bavla/hypernets/blob/main/data/str/FB_ImpExp.md)     |
 
 
 
