@@ -1,6 +1,8 @@
 # CIA factbook: import/export
 
 The set of nodes/resources needs some additional cleaning.
+
+http://vladowiki.fmf.uni-lj.si/doku.php?id=vlado:work:hn:cia#import_export
 ```
 List of 5
  $ format: chr "hypernets"
