@@ -12,7 +12,8 @@ List of 5
   ..$ network: chr "FB_indust"
   ..$ title  : chr "CIA factbook: industries"
   ..$ by     : chr "iancoleman"
-  ..$ href   : chr [1:2] "https://www.cia.gov/the-world-factbook/" "https://github.com/iancoleman/cia_world_factbook_api#data"
+  ..$ href   : chr [1:2] "https://www.cia.gov/the-world-factbook/"
+                         "https://github.com/iancoleman/cia_world_factbook_api#data"
   ..$ creator: chr "V. Batagelj"
   ..$ date   : chr "Tue Oct 24 02:44:24 2023"
   ..$ nNodes : int 660
