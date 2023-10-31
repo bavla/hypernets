@@ -13,6 +13,7 @@
 | [FB international organizations](https://raw.githubusercontent.com/bavla/hypernets/main/data/FB_orgs.json)   | resources    | 264  | countries  | 237   | [str](https://github.com/bavla/hypernets/blob/main/data/str/FB_orgs.md)     |
 
 
+http://vladowiki.fmf.uni-lj.si/doku.php?id=vlado:work:hn:cia
 
 In R, we can read a hypernets JSON file directly from the GitHub
 ```
