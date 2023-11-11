@@ -10,7 +10,7 @@
 | [FB import/export](https://raw.githubusercontent.com/bavla/hypernets/main/data/FB_ImpExp.json)   | resources    | 753  | countries  | 237   | [str](https://github.com/bavla/hypernets/blob/main/data/str/FB_ImpExp.md)     |
 | [FB industries](https://raw.githubusercontent.com/bavla/hypernets/main/data/FB_indust.json)   | resources    | 660  | countries  | 237   | [str](https://github.com/bavla/hypernets/blob/main/data/str/FB_indust.md)     |
 | [FB agricultural products](https://raw.githubusercontent.com/bavla/hypernets/main/data/FB_agroP.json)   | resources    | 290  | countries  | 237   | [str](https://github.com/bavla/hypernets/blob/main/data/str/FB_agroP.md)     |
-| [FB international organizations](https://raw.githubusercontent.com/bavla/hypernets/main/data/FB_orgs.json)   | resources    | 264  | countries  | 237   | [str](https://github.com/bavla/hypernets/blob/main/data/str/FB_orgs.md)     |
+| [FB international organizations](https://raw.githubusercontent.com/bavla/hypernets/main/data/FB_inOrgs.json)   | organizations    | 197  | countries  | 237   | [str](https://github.com/bavla/hypernets/blob/main/data/str/FB_orgs.md)     |
 
 
 http://vladowiki.fmf.uni-lj.si/doku.php?id=vlado:work:hn:cia
