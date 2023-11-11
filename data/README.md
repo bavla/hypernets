@@ -43,5 +43,7 @@ Clustering the FB_inOrgs
 > plot(hc,hang=-1,cex=0.4)
 > hc <- hyper.cluster(HN,pMembers)
 > plot(hc,hang=-1,cex=0.4)
+> hc <- hyper.cluster(HN,pMembers,norm=TRUE,w=HN$links$pop/1000000)
+> plot(hc,hang=-1,cex=0.4)
 ```
 
