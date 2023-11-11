@@ -50,24 +50,27 @@ Lupdate <- function(Y,ip,iq){
   R <- P+Q; M <- max(R); t <- as.integer(2*R >= M)
   s <- Y[[ip]]$s + Y[[iq]]$s
   ppq <- sum((1-t)*R + t*(M-R))
-  return(list(L=t,R=R,s=Y[[ip]]$s+Y[[iq]]$s,p=ppq))
+  return(list(L=t,R=R,f=Y[[ip]]$f+Y[[iq]]$f,s=Y[[ip]]$s+Y[[iq]]$s,p=ppq))
 }
 
-hyper.cluster <- function(HN,dist=pMembers){
+hyper.cluster <- function(HN,dist=pMembers,norm=FALSE,w=NA){
   orDendro <- function(i){if(i<0) return(-i)
     return(c(orDendro(m[i,1]),orDendro(m[i,2])))}
 
   nUnits <- nrow(HN$links); nmUnits <- nUnits-1
   npUnits <- nUnits+1; n2mUnits <- nUnits+nmUnits; nNodes <- nrow(HN$nodes)
-  H <- HN$links$E; U <- vector(mode="list",n2mUnits)
+  H <- HN$links$E; U <- vector("list",n2mUnits)
   names(U)[1:nUnits] <- HN$links$ID
-  for(j in 1:nUnits) {v <- rep(0,nNodes); v[H[[j]]] <- 1; U[[j]] <- list(L=v,R=v,s=1,p=0)}
+  if(is.na(w[1])) w <- rep(1,nUnits)
+  for(j in 1:nUnits) {v <- rep(0,nNodes); v[H[[j]]] <- 1
+    k <- max(1,sum(v)); u <- if(norm) v*(w[j]/k) else v*w[j]  
+    U[[j]] <- list(L=v,R=u,f=1,s=w[j],p=0)}
   D <- matrix(nrow=nUnits,ncol=nUnits)
   for(p in 1:nmUnits) for(q in (p+1):nUnits) D[q,p] <- D[p,q] <- dist(U,p,q)
   diag(D) <- Inf
   active <- 1:nUnits; m <- matrix(nrow=nmUnits,ncol=2)
   node <- rep(0,nUnits); h <- numeric(nmUnits)
-  for(j in npUnits:n2mUnits) U[[j]] <- list(L=NA,R=NA,s=1,p=0)
+  for(j in npUnits:n2mUnits) U[[j]] <- list(L=NA,R=NA,f=1,s=1,p=0)
   names(U)[npUnits:n2mUnits] <- paste("L",1:nmUnits,sep="")
   for(k in 1:nmUnits){
     ind <- active[sapply(active,function(i) which.min(D[i,active]))]
