@@ -34,3 +34,14 @@ Larger hypernets files are ZIPed. We can read them directly using [getZip](https
 > H <- fromJSON(getZip(hfile))
 > str(H)
 ```
+Clustering the FB_inOrgs
+```
+> source("https://raw.githubusercontent.com/bavla/hypernets/main/R/hyperNets.R")
+> library(jsonlite)
+> HN <- fromJSON("https://raw.githubusercontent.com/bavla/hypernets/main/data/FB_inOrgs.json")
+> hc <- hyper.cluster(HN,dMembers)
+> plot(hc,hang=-1,cex=0.4)
+> hc <- hyper.cluster(HN,pMembers)
+> plot(hc,hang=-1,cex=0.4)
+```
+
