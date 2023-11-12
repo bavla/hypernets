@@ -53,15 +53,16 @@ Lupdate <- function(Y,ip,iq){
   return(list(L=t,R=R,f=Y[[ip]]$f+Y[[iq]]$f,s=Y[[ip]]$s+Y[[iq]]$s,p=ppq))
 }
 
-hyper.cluster <- function(HN,dist=pMembers,norm=FALSE,w=NA){
+hyper.cluster <- function(HN,dist=pMembers,dtype="dSets",norm=FALSE,w=NA){
   orDendro <- function(i){if(i<0) return(-i)
     return(c(orDendro(m[i,1]),orDendro(m[i,2])))}
 
-  nUnits <- nrow(HN$links); nmUnits <- nUnits-1
+  nUnits <- nrow(HN$links); nmUnits <- nUnits-1; method <- "HiSets"
   npUnits <- nUnits+1; n2mUnits <- nUnits+nmUnits; nNodes <- nrow(HN$nodes)
   H <- HN$links$E; U <- vector("list",n2mUnits)
   names(U)[1:nUnits] <- HN$links$ID
-  if(is.na(w[1])) w <- rep(1,nUnits)
+  if(is.na(w[1])) w <- rep(1,nUnits) else method <- "HiSetsW"
+  if(norm) method <- paste(method,"N",sep="")
   for(j in 1:nUnits) {v <- rep(0,nNodes); v[H[[j]]] <- 1
     k <- max(1,sum(v)); u <- if(norm) v*(w[j]/k) else v*w[j]  
     U[[j]] <- list(L=v,R=u,f=1,s=w[j],p=0)}
@@ -90,7 +91,26 @@ hyper.cluster <- function(HN,dist=pMembers,norm=FALSE,w=NA){
   }
   for(i in 1:nmUnits) for(j in 1:2) if(m[i,j]>nUnits) m[i,j] <- m[i,j]-nUnits 
   hc <- list(merge=m,height=h,order=orDendro(nmUnits),labels=HN$links$ID,
-    method=NULL,call=NULL,dist.method=NULL,leaders=U[npUnits:n2mUnits])
+    method=method,call=NULL,dist.method=dtype,leaders=U[npUnits:n2mUnits],
+    attrs=HN$nodes$ID)
   class(hc) <- "hclust"
   return(hc)
 }
+
+# set of units in cluster q in the hierarchy hc
+cluster <- function(hc,q) {
+  clu <- function(m,q) return(if(q < 0) -q else union(clu(m,m[q,1]),clu(m,m[q,2]))) 
+  return(clu(hc$merge,q))
+}
+
+# indices of top k values in vector V
+top <- function(V,k) return(order(V,decreasing=TRUE)[1:k])
+
+# description of the top k attributes of cluster cl in the hierarchy hc
+desc <- function(hc,cl,k){
+  km <- min(k,sum(hc$leaders[[cl]]$L))
+  I <- top(hc$leaders[[cl]]$R,km)
+  T <- hc$leaders[[cl]]$R[I]; names(T) <- hc$attrs[I]
+  return(T)
+}
+
