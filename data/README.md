@@ -3,7 +3,7 @@
 | Network | Nodes | nNodes | Links | nLinks | Structure |
 | :---         |     :---       |      :---:   |     :---       |      :---:   |      :---:   |
 | [Simple example](https://raw.githubusercontent.com/bavla/hypernets/main/data/ex.json)   | nodes    | 5  | links  | 3     | [str](https://github.com/bavla/hypernets/blob/main/data/str/ex.md)     |
-| [Network tools and formats](https://raw.githubusercontent.com/bavla/hypernets/main/data/NetFormats.json)   | nodes    | 7  | links  | 8     | [str](https://github.com/bavla/hypernets/blob/main/data/str/NetFormats.md)     |
+| [Network tools and formats](https://raw.githubusercontent.com/bavla/hypernets/main/data/NetFormats.json)   | nodes    | 7  | links  | 8     | [str](https://github.com/bavla/hypernets/blob/main/data/str/NetworkFormats.md)     |
 | [Zoo](https://raw.githubusercontent.com/bavla/hypernets/main/data/Zoo.json)   | properties    | 15  | animals  | 101     | [str](https://github.com/bavla/hypernets/blob/main/data/str/Zoo.md)     |
 | [Cooking](https://raw.githubusercontent.com/bavla/hypernets/main/data/Zoo.json)   | ingredients    | 6759  | recipes  | 39774     | [str](https://github.com/bavla/hypernets/blob/main/data/str/Cooking.md)     |
 | [Contacts-high school](https://raw.githubusercontent.com/bavla/hypernets/main/data/contact-high-school.json)   | students    | 327  | contacts  | 172035   | [str](https://github.com/bavla/hypernets/blob/main/data/str/contact-high-school.md)     |
