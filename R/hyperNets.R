@@ -137,8 +137,8 @@ reportCl <- function(HN,Cl){
   tot <- sum(sapply(Cl$leaders,function(x) x$p))
   cat(HN$info$title,"\ntot =",tot,"\n\n")
   for(k in 1:nl)cat("C",k," r =",Cl$R[k],"f =",Cl$leaders[[k]]$f,
-    "p =",Cl$leaders[[k]]$p,"\n",LN[k],":",HN$nodes$ID[Cl$leaders[[k]]$L==1],
-    "\nC:",HN$links$ID[which(C==k)],"\n\n")
+    "c =",sum(Cl$leaders[[k]]$L),"p =",Cl$leaders[[k]]$p,"\n",LN[k],":",
+    HN$nodes$ID[Cl$leaders[[k]]$L==1],"\nC:",HN$links$ID[which(C==k)],"\n\n")
 }
 
 # adapted leaders method
