@@ -22,6 +22,18 @@ hyper.save2pajek <- function(HN,netFile){
   close(net)
 }
 
+hyper.dual <- function(HN){
+  HD <- HN
+  HD$info$creator <- c(HN$info$creator,"hyper.dual")
+  HD$info$date <- c(HN$info$date,date())
+  HD$info$nNodes <- HN$info$nLinks; m <- HD$info$nLinks <- HN$info$nNodes
+  HD$nodes <- subset(HN$links,select=-c(E)); HD$links <- HN$nodes
+  E = vector(mode="list",m)
+  for(i in 1:m) E[[i]] <- which(sapply(HN$links$E,function(x) i %in% x)) 
+  HD$links$E <- E
+  return(HD)
+}
+
 # hyperClus.R
 # clustering in hypernets
 # 11. November 2023
@@ -113,4 +125,79 @@ desc <- function(hc,cl,k){
   T <- hc$leaders[[cl]]$R[I]; names(T) <- hc$attrs[I]
   return(T)
 }
+
+distul <- function(X,Y){
+  P <- X$R; Q <- Y$L
+  R <- P+Q; M <- max(R); t <- Y$L # t <- as.integer(2*R >= M)
+  return(sum((1-t)*R + t*(M-R)))
+}
+
+# adapted leaders method
+#---------------------------------------------
+# VB, 16. julij 2010
+#   dodaj omejitev na najmanjše število enot v skupini
+#   omejeni polmer
+
+hyper.leader <- function(HN,maxL,trace=2,tim=1,empty=0,clust=NULL,w=NA,norm=FALSE){
+  nUnits <- nrow(HN$links); nmUnits <- nUnits-1; method <- "Leader"
+  nNodes <- nrow(HN$nodes)
+  v <- rep(0,nNodes); temp <- list(L=v,R=v,f=0,s=0,p=0)  
+  H <- HN$links$E; U <- vector("list",nUnits)
+  names(U)[1:nUnits] <- HN$links$ID
+  if(is.na(w[1])) w <- rep(1,nUnits) else method <- "LeaderW"
+  if(norm) method <- paste(method,"N",sep="")
+  for(j in 1:nUnits) {v <- rep(0,nNodes); v[H[[j]]] <- 1
+    k <- max(1,sum(v)); u <- if(norm) v*(w[j]/k) else v*w[j]  
+    U[[j]] <- list(L=v,R=u,f=1,s=w[j],p=0)}
+    
+  L <- vector("list",maxL); Ro <- numeric(maxL); K <- integer(maxL)
+# if not given, random partition into maxL clusters
+  if(is.null(clust)) clust <- sample(1:(maxL-empty),nUnits,replace=TRUE)
+  step <- 0 
+  cat("Hypernets / leader",date(),"\n\n"); flush.console()
+  repeat {
+    step <- step+1; K <- 0
+  # new leaders - determine the leaders of clusters in current partition
+    for(k in 1:maxL){L[[k]] <- temp; names(L)[[k]] <- paste("L",k,sep="")}
+    for(i in 1:nUnits){j <- clust[[i]]; L[[j]]$R <- L[[j]]$R + U[[i]]$R }
+    for(k in 1:maxL){M <- max(L[[k]]$R); L[[k]]$L <- as.integer(2*L[[k]]$R >= M)}
+  # new partition - assign each unit to the nearest new leader
+  # for(k in 1:maxL) print(L[[k]]$L); flush.console() # TEST
+    clust <- integer(nUnits)
+    R <- numeric(maxL); p <- double(maxL)
+    for(i in 1:nUnits){d <- double(maxL)
+      for(k in 1:maxL){d[[k]] <- distul(U[[i]],L[[k]])}
+      r <- min(d); j <- which(d==r)
+      if(is.infinite(r)){cat("Infinite unit=",i,"\n"); print(U[[i]]); flush.console()}
+      if(length(j)==0){
+        cat("unit",i,"\n",d,"\n"); flush.console(); print(U[[i]]); flush.console()
+        u <- which(is.na(d))[[1]]; cat("leader",u,"\n"); print(L[[u]])
+        stop()}
+      j <- which(d==r)[[1]];
+      clust[[i]] <- j; p[[j]] <- p[[j]] + r; L[[j]]$f <- L[[j]]$f + 1
+      if(R[[j]]<r) {R[[j]] <- r; K[[j]] <- i}
+    }
+  # report
+    cat("\nStep",step,date(),"\n"); flush.console()
+    if(trace>1) {print(table(clust)); print(R); print(Ro-R); print(p)} 
+    print(sum(p)); flush.console()
+    if(sum(abs(Ro-R))<0.0000001) break
+    Ro <- R; tim <- tim-1
+    if(tim<1){
+      ans <- readline("Times repeat = ")
+      tim <- as.integer(ans); if (tim < 1)  break
+    }
+  # in the case of empty clusters use the most distant SOs as seeds
+    t <- table(clust)
+    em <- setdiff(1:maxL,as.integer(names(t)))
+    if(length(em)>0){
+      cat("*** empty clusters",em,":"); lem <- length(em)
+      if(2*lem>maxL){cat(" more than half clusters\n"); stop()}
+      iem <- K[rev(order(R))[1:lem]]; clust[iem] <- em
+      cat(" Units",iem," used as seeds\n"); flush.console()
+    }
+  }
+  return (list(clust=clust,leaders=L,R=R,p=p))
+}
+
 
