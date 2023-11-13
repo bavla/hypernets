@@ -132,6 +132,15 @@ distul <- function(X,Y){
   return(sum((1-t)*R + t*(M-R)))
 }
 
+reportCl <- function(HN,Cl){
+  C <- Cl$clust; LN <- names(Cl$leaders); nl <- length(LN)
+  tot <- sum(sapply(Cl$leaders,function(x) x$p))
+  cat(HN$info$title,"\ntot =",tot,"\n\n")
+  for(k in 1:nl)cat("C",k," r =",Cl$R[k],"f =",Cl$leaders[[k]]$f,
+    "p =",Cl$leaders[[k]]$p,"\n",LN[k],":",HN$nodes$ID[Cl$leaders[[k]]$L==1],
+    "\nC:",HN$links$ID[which(C==k)],"\n\n")
+}
+
 # adapted leaders method
 #---------------------------------------------
 # VB, 16. julij 2010
@@ -140,7 +149,7 @@ distul <- function(X,Y){
 
 hyper.leader <- function(HN,maxL,trace=2,tim=1,empty=0,clust=NULL,w=NA,norm=FALSE){
   nUnits <- nrow(HN$links); nmUnits <- nUnits-1; method <- "Leader"
-  nNodes <- nrow(HN$nodes)
+  nNodes <- nrow(HN$nodes); best <- Inf
   v <- rep(0,nNodes); temp <- list(L=v,R=v,f=0,s=0,p=0)  
   H <- HN$links$E; U <- vector("list",nUnits)
   names(U)[1:nUnits] <- HN$links$ID
@@ -163,8 +172,7 @@ hyper.leader <- function(HN,maxL,trace=2,tim=1,empty=0,clust=NULL,w=NA,norm=FALS
     for(k in 1:maxL){M <- max(L[[k]]$R); L[[k]]$L <- as.integer(2*L[[k]]$R >= M)}
   # new partition - assign each unit to the nearest new leader
   # for(k in 1:maxL) print(L[[k]]$L); flush.console() # TEST
-    clust <- integer(nUnits)
-    R <- numeric(maxL); p <- double(maxL)
+    clust <- integer(nUnits); R <- numeric(maxL)
     for(i in 1:nUnits){d <- double(maxL)
       for(k in 1:maxL){d[[k]] <- distul(U[[i]],L[[k]])}
       r <- min(d); j <- which(d==r)
@@ -174,13 +182,15 @@ hyper.leader <- function(HN,maxL,trace=2,tim=1,empty=0,clust=NULL,w=NA,norm=FALS
         u <- which(is.na(d))[[1]]; cat("leader",u,"\n"); print(L[[u]])
         stop()}
       j <- which(d==r)[[1]];
-      clust[[i]] <- j; p[[j]] <- p[[j]] + r; L[[j]]$f <- L[[j]]$f + 1
+      clust[[i]] <- j; L[[j]]$p <- L[[j]]$p + r; L[[j]]$f <- L[[j]]$f + 1
       if(R[[j]]<r) {R[[j]] <- r; K[[j]] <- i}
     }
   # report
     cat("\nStep",step,date(),"\n"); flush.console()
-    if(trace>1) {print(table(clust)); print(R); print(Ro-R); print(p)} 
-    print(sum(p)); flush.console()
+    if(trace>1) {print(table(clust)); print(R); print(Ro-R)
+    print(sapply(L,function(x) x$p))} 
+    tot <- sum(sapply(L,function(x) x$p)); print(tot); flush.console()
+    if(tot<best){best <- tot; Cb <- clust; Lb <- L; Rb <- R}
     if(sum(abs(Ro-R))<0.0000001) break
     Ro <- R; tim <- tim-1
     if(tim<1){
@@ -197,7 +207,7 @@ hyper.leader <- function(HN,maxL,trace=2,tim=1,empty=0,clust=NULL,w=NA,norm=FALS
       cat(" Units",iem," used as seeds\n"); flush.console()
     }
   }
-  return (list(clust=clust,leaders=L,R=R,p=p))
+  return (list(clust=Cb,leaders=Lb,R=Rb))
 }
 
 
